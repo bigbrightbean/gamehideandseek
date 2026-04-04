@@ -593,24 +593,33 @@ transform: translateZ(0);
 }
 
 /* ===================================================== */
-/* 🌿 WIGGLE (ONLY DECO, NOT TILE) */
+/* 🌿 WIGGLE — LIVELY VERSION (HIDE & SEEK) */
 /* ===================================================== */
 
 .deco.wiggle{
-animation:wiggle 2.2s ease-in-out infinite;
-animation-delay:var(--delay, 0s);
-
-/* 🔥 FORCE ANIMATION LAYER */
-will-change: transform;
+  animation:wiggle 1.4s ease-in-out infinite;
+  animation-delay:var(--delay, 0s);
+  will-change: transform;
 }
 
+/* 💥 JUICIER, MORE CHAOTIC */
 @keyframes wiggle{
-0%   { transform:rotate(0deg) scale(1); }
-20%  { transform:rotate(4deg) scale(1.08); }
-40%  { transform:rotate(-4deg) scale(1.08); }
-60%  { transform:rotate(3deg) scale(1.06); }
-80%  { transform:rotate(-2deg) scale(1.04); }
-100% { transform:rotate(0deg) scale(1); }
+  0%   { transform:rotate(0deg) scale(1); }
+
+  10%  { transform:rotate(6deg) scale(1.12); }
+  20%  { transform:rotate(-6deg) scale(1.12); }
+
+  30%  { transform:rotate(5deg) scale(1.1); }
+  40%  { transform:rotate(-5deg) scale(1.1); }
+
+  50%  { transform:rotate(4deg) scale(1.08); }
+  60%  { transform:rotate(-4deg) scale(1.08); }
+
+  70%  { transform:rotate(3deg) scale(1.06); }
+  80%  { transform:rotate(-3deg) scale(1.05); }
+
+  90%  { transform:rotate(2deg) scale(1.03); }
+  100% { transform:rotate(0deg) scale(1); }
 }
 
 
@@ -727,6 +736,26 @@ animation:popIn 0.4s ease;
 .result-text{
 font-size:48px;
 margin-top:20px;
+}
+
+/* ========================================== */
+/* 🏆 WINNER TEAM GLOW (HIDE & SEEK) */
+/* ========================================== */
+
+.result-box.dog-win{
+  border:4px solid #ff3b3b;
+  box-shadow:
+    0 0 25px #ff3b3b,
+    0 0 60px rgba(255,59,59,0.8),
+    0 0 100px rgba(255,59,59,0.6);
+}
+
+.result-box.tiger-win{
+  border:4px solid #2f80ff;
+  box-shadow:
+    0 0 25px #2f80ff,
+    0 0 60px rgba(47,128,255,0.8),
+    0 0 100px rgba(47,128,255,0.6);
 }
 
 /* ===================================================== */

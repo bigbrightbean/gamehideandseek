@@ -838,13 +838,24 @@ function generateGrid(){
     decoEl.className = "deco"
     decoEl.innerText = decoEmoji
 
-    /* 🌿 RANDOM WIGGLE */
-    if(Math.random() < 0.28){
+    /* 🌿 RANDOM WIGGLE — MORE LIVELY */
+    const wiggleChance = 0.6   // 🔥 was 0.28 → now more active
 
-      decoEl.classList.add("wiggle")
+    if(Math.random() < wiggleChance){
 
+      /* 🎯 MIX OF SPEED TYPES */
+      if(Math.random() < 0.7){
+        decoEl.classList.add("wiggle")        // normal
+      }else{
+        decoEl.classList.add("wiggle-fast")   // faster variant
+      }
+
+      /* 🎯 RANDOM START (DESYNC) */
       decoEl.style.setProperty("--delay", (Math.random()*2) + "s")
-      decoEl.style.animationDuration = (Math.random()*1.5 + 1.5) + "s"
+
+      /* 🎯 RANDOM SPEED */
+      decoEl.style.animationDuration = (Math.random()*1.0 + 1.0) + "s"
+
     }
 
     tile.appendChild(decoEl)
@@ -943,6 +954,13 @@ popup.className = "result-popup"
 const box = document.createElement("div")
 box.className = "result-box"
 
+/* 🎯 ADD TEAM COLOR */
+if(winner.includes("Dog")){
+  box.classList.add("dog-win")
+}else{
+  box.classList.add("tiger-win")
+}
+
 /* ===================== */
 /* 🐾 EMOJI */
 /* ===================== */
@@ -995,7 +1013,7 @@ if(animal === winningAnimal){
 /* ⏱ DURATION */
 /* ===================== */
 
-const duration = animal === winningAnimal ? 5000 : 1000
+const duration = animal === winningAnimal ? 5000 : 2000
 
 setTimeout(()=>{
 
