@@ -954,8 +954,8 @@ popup.className = "result-popup"
 const box = document.createElement("div")
 box.className = "result-box"
 
-/* 🎯 ADD TEAM COLOR */
-if(winner.includes("Dog")){
+// 🎯 ADD TEAM COLOR
+if(currentTeam === "dog"){
   box.classList.add("dog-win")
 }else{
   box.classList.add("tiger-win")
