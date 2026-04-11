@@ -768,6 +768,7 @@ const dogPoints = document.getElementById("dogPoints")
 const tigerPoints = document.getElementById("tigerPoints")
 const forestGrid = document.getElementById("forestGrid")
 
+let revealCount = 0
 
 /* ===================================================== */
 /* 🌲 GENERATE GRID — FIXED BOARD (DYNAMIC WINNER) */
@@ -780,6 +781,9 @@ function generateGrid(){
   /* ===================== */
   forestGrid.innerHTML = ""
   grid = []
+
+  /* 🔥 RESET REVEAL COUNT (IMPORTANT) */
+  revealCount = 0
 
   /* ===================== */
   /* 📐 GRID SIZE */
@@ -817,20 +821,11 @@ function generateGrid(){
 
       /* ❗ EXCLUDE winningAnimal from random pool */
       const nonWinners = animals.filter(a => a !== winningAnimal)
-
       animal = nonWinners[Math.floor(Math.random()*nonWinners.length)]
     }
 
-    /* ===================== */
-    /* 🟩 CREATE TILE */
-    /* ===================== */
-
     const tile = document.createElement("div")
     tile.className = "tile"
-
-    /* ===================== */
-    /* 🌿 CREATE DECO CHILD */
-    /* ===================== */
 
     const decoEmoji = deco[Math.floor(Math.random()*deco.length)]
 
@@ -838,50 +833,31 @@ function generateGrid(){
     decoEl.className = "deco"
     decoEl.innerText = decoEmoji
 
-    /* 🌿 RANDOM WIGGLE — MORE LIVELY */
-    const wiggleChance = 0.6   // 🔥 was 0.28 → now more active
+    const wiggleChance = 0.6
 
     if(Math.random() < wiggleChance){
 
-      /* 🎯 MIX OF SPEED TYPES */
       if(Math.random() < 0.7){
-        decoEl.classList.add("wiggle")        // normal
+        decoEl.classList.add("wiggle")
       }else{
-        decoEl.classList.add("wiggle-fast")   // faster variant
+        decoEl.classList.add("wiggle-fast")
       }
 
-      /* 🎯 RANDOM START (DESYNC) */
       decoEl.style.setProperty("--delay", (Math.random()*2) + "s")
-
-      /* 🎯 RANDOM SPEED */
       decoEl.style.animationDuration = (Math.random()*1.0 + 1.0) + "s"
-
     }
 
     tile.appendChild(decoEl)
 
-    /* ===================== */
-    /* 🧠 STORE HIDDEN ANIMAL */
-    /* ===================== */
-
     tile.dataset.animal = animal
 
-    /* ===================== */
-    /* 🖱 CLICK */
-    /* ===================== */
-
     tile.onclick = ()=> selectTile(tile)
-
-    /* ===================== */
-    /* 📦 ADD TO GRID */
-    /* ===================== */
 
     forestGrid.appendChild(tile)
     grid.push(tile)
   }
 
 }
-
 
 
 /* ===================================================== */
@@ -922,16 +898,46 @@ selectedTile = tile
 
 function openTile(tile){
 
-tile.classList.add("revealed")
+  tile.classList.add("revealed")
 
-/* 🔥 GREY OUT TILE */
-tile.style.opacity = "0.4"
-tile.style.pointerEvents = "none"
+  /* 🔥 GREY OUT TILE */
+  tile.style.opacity = "0.4"
+  tile.style.pointerEvents = "none"
 
-tile.innerText = tile.dataset.animal
+  let resultAnimal = tile.dataset.animal
 
-showResult(tile.dataset.animal)
+  /* ===================================================== */
+  /* 🚫 NO-WASTE RIGGING (FIRST 4 REVEALS) */
+  /* ===================================================== */
 
+  if(revealCount < 4 && resultAnimal === winningAnimal){
+
+    const candidates = grid.filter(t =>
+      !t.classList.contains("revealed") &&
+      t !== tile &&
+      t.dataset.animal !== winningAnimal
+    )
+
+    if(candidates.length > 0){
+
+      const swapTile = candidates[Math.floor(Math.random()*candidates.length)]
+
+      // 🔄 SWAP (NO WASTE)
+      const temp = swapTile.dataset.animal
+      swapTile.dataset.animal = winningAnimal
+      resultAnimal = temp
+    }
+  }
+
+  /* ===================================================== */
+  /* 🎯 SHOW RESULT */
+  /* ===================================================== */
+
+  tile.innerText = resultAnimal
+  showResult(resultAnimal)
+
+  /* 🔥 COUNT AFTER REVEAL */
+  revealCount++
 }
 
 /* ===================================================== */
