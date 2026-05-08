@@ -508,7 +508,7 @@ margin:20px auto;
 width:100%;
 
 /* ✅ THIS MAKES TRUE SQUARE */
-aspect-ratio:1 / 1;
+height:150px;
 
 /* REMOVE height:100% ❌ */
 border-radius:10px;
